@@ -7,11 +7,15 @@
 
   <ItemGroup>
     <None Remove="Java\application.yml" />
+    <None Remove="Java\config.json" />
     <None Remove="Java\Lavalink.jar" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Java\application.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Java\config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Java\Lavalink.jar">

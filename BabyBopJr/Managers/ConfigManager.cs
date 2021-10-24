@@ -10,7 +10,7 @@ namespace BabyBopJr.Managers
 {
     public static class ConfigManager
     {
-        private static string ConfigFolder = "Resources";
+        private static string ConfigFolder = "Java";
         private static string ConfigFile = "config.json";
         private static string ConfigPath = ConfigFolder + "/" + ConfigFile;
         public static BotConfig Config { get; private set; }
