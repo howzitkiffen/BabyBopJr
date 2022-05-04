@@ -17,6 +17,7 @@ namespace BabyBopJr.Managers
     public static class AudioManager
     {
         private static readonly LavaNode _lavaNode = ServiceManager.Provider.GetRequiredService<LavaNode>();
+        private static Boolean skipped = false;
 
         public static async Task<string> JoinAsync(IGuild guild, IVoiceState voiceState, ITextChannel Channel)
         {
@@ -47,21 +48,27 @@ namespace BabyBopJr.Managers
             //{
             //    return;
             //}
+            if (skipped == false) 
+            { 
+                if (!args.Player.Queue.TryDequeue(out var queueable))
+                {
+                    //await args.Player.TextChannel.SendMessageAsync("Playback Finished.");
+                    return;
+                }
 
-            if (!args.Player.Queue.TryDequeue(out var queueable))
-            {
-                //await args.Player.TextChannel.SendMessageAsync("Playback Finished.");
-                return;
+                if(!(queueable is LavaTrack track))
+                {
+                    await args.Player.TextChannel.SendFileAsync("Next item in the queue isn't a track");
+                    return;
+                }
+
+                await args.Player.PlayAsync(track);
+                await args.Player.TextChannel.SendMessageAsync($"Now Playing {track.Title} By {track.Author}");
             }
-
-            if(!(queueable is LavaTrack track))
+            else
             {
-                await args.Player.TextChannel.SendFileAsync("Next item in the queue isn't a track");
-                return;
+                skipped = false;
             }
-
-            await args.Player.PlayAsync(track);
-            await args.Player.TextChannel.SendMessageAsync($"Now Playing {track.Title} By {track.Author}");
         }
 
 
@@ -171,9 +178,17 @@ namespace BabyBopJr.Managers
                         /* Save the current song for use after we skip it. */
                         var currentTrack = player.Track;
                         /* Skip the current song. */
-                        await player.SkipAsync();
+                        //await player.SkipAsync();
+                        await player.PauseAsync();
+                        player.Queue.TryDequeue(out var queueable);
+                        LavaTrack track = queueable;
+                        await player.PlayAsync(track);
+                        skipped = true;
+
                         Console.WriteLine($"[{DateTime.Now}] Bot skipped: {currentTrack.Title}");
-                        return $"I have successfully skiped {currentTrack.Title}";
+                        await player.TextChannel.SendMessageAsync($"I have successfully skipped {currentTrack.Title}");
+                        return $"Now Playing {track.Title} By {track.Author}";
+
                     }
                     catch (Exception ex)
                     {
@@ -185,6 +200,32 @@ namespace BabyBopJr.Managers
             catch (Exception ex)
             {
                 return ex.Message;
+            }
+        }
+
+        public static async Task<string> StopAsync(IGuild guild)
+        {
+            try
+            {
+                var player = _lavaNode.GetPlayer(guild);
+
+                if (player == null)
+                     await player.TextChannel.SendMessageAsync("Could not aquire player.\nAre you using the bot right now? check{GlobalData.Config.DefaultPrefix}Help for info on how to use the bot.");
+
+                /* Check if the player exists, if it does, check if it is playing.
+                     If it is playing, we can stop.*/
+                if (player.PlayerState is PlayerState.Playing)
+                {
+                    await player.StopAsync();
+                    return ("I Have stopped playback & the playlist has been cleared.");
+                }
+
+                 Console.WriteLine($"Bot has stopped playback.");
+               return("I Have stopped playback & the playlist has been cleared.");
+            }
+            catch (Exception ex)
+            {
+                return  ex.Message;
             }
         }
 

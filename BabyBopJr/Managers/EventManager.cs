@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System;
 using Discord;
 using Victoria;
+using Victoria.EventArgs;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -29,7 +30,7 @@ namespace BabyBopJr.Managers
                 Console.WriteLine($"[{DateTime.Now}]\t({message.Message})");
                 return Task.CompletedTask;
             };
-
+            _lavaNode.OnTrackEnded += Managers.AudioManager.TrackEnded;
             _client.Ready += OnReady;
             _client.MessageReceived += OnMessageReceived;
             return Task.CompletedTask;
@@ -66,6 +67,8 @@ namespace BabyBopJr.Managers
         {
             var message = arg as SocketUserMessage;
             var context = new SocketCommandContext(_client, message);
+
+            Console.WriteLine(message);
 
             if (message.Author.IsBot || message.Channel is IDMChannel) return;
 

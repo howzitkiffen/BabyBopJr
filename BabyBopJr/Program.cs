@@ -57,9 +57,9 @@ namespace BabyBopJr
         {
             if (string.IsNullOrWhiteSpace(Managers.ConfigManager.Config.Token)) return;
 
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
 
-
-            //await RunLavaLink();
+            await RunLavaLink();
 
             await Managers.CommandManager.LoadCommandsAsync();
             await Managers.EventManager.LoadCommands();
@@ -84,7 +84,8 @@ namespace BabyBopJr
                 {
                     FileName="C:\\Windows\\system32\\cmd.exe",
                     WorkingDirectory = LavaLinkFolder,
-                    Arguments = cmdText
+                    Arguments = cmdText,
+                    WindowStyle=System.Diagnostics.ProcessWindowStyle.Normal
                 }
                 }.Start();
 
@@ -95,6 +96,12 @@ namespace BabyBopJr
                 Console.WriteLine($"ERROR: {ex.Message}");
             }
             return Task.CompletedTask;
+        }
+
+        static void CurrentDomain_ProcessExit(object sender, EventArgs e)
+        {
+            Console.WriteLine("exit");
+            Environment.Exit(Environment.ExitCode);
         }
 
         private Task Log(LogMessage msg)

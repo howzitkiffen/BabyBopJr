@@ -26,5 +26,14 @@ namespace BabyBopJr.Commands
         [Summary("Leaves the voice channel")]
         public async Task LeaveCommand()
             => await Context.Channel.SendMessageAsync(await Managers.AudioManager.LeaveAsync(Context.Guild));
+        [Command("stop")]
+        [Summary("Stops the queue/song")]
+        public async Task Stop()
+            => await Context.Channel.SendMessageAsync(await Managers.AudioManager.StopAsync(Context.Guild));
+        [Command("skip")]
+        [Summary("Skips to the next song in the queue")]
+        public async Task Skip()
+           => await Context.Channel.SendMessageAsync( await Managers.AudioManager.SkipTrackAsync(Context.Guild));
+
     }
 }
