@@ -71,6 +71,23 @@ namespace BabyBopJr.Managers
             }
         }
 
+        public static async Task<string> SeekTrackAsync(IGuild guild, SocketUserMessage message)
+        {
+            var player = _lavaNode.GetPlayer(guild);
+            var currentPosition = player.Track.Position;
+            var newPosition = TimeSpan.FromSeconds(double.Parse(message.ToString().Remove(0, 8))); //Remove the characters before the timespan (ie. "!jr seek ")
+
+            if(player.Track == null)
+            {
+                return "No track is currently playing!";
+            }
+
+            if(player.Track.Duration < currentPosition + newPosition){ return "Sorry but that is longer than the songs duration!"; }
+
+            await player.SeekAsync(currentPosition + newPosition);
+            return $"The current track was advanced by {newPosition} seconds and is now at {currentPosition + newPosition}!";
+        }
+
 
         //Runs when the user requests a song to play
         public static async Task<string> PlayAsync(SocketGuildUser user, IGuild guild, string query)
@@ -96,7 +113,7 @@ namespace BabyBopJr.Managers
                 var search = Uri.IsWellFormedUriString(query, UriKind.Absolute) 
                   ? await _lavaNode.SearchAsync(Victoria.Responses.Search.SearchType.YouTube, query)
                   : await _lavaNode.SearchYouTubeAsync(query);
-
+                
                 //If we couldn't find anything, tell the user.
                 if (search.Status == Victoria.Responses.Search.SearchStatus.NoMatches)
                 {
@@ -106,6 +123,7 @@ namespace BabyBopJr.Managers
                 //Get the first track from the search results.
                 //TODO: Add a 1-5 list for the user to pick from. (Like Fredboat)
                 track = search.Tracks.FirstOrDefault();
+               
 
                 //If the Bot is already playing music, or if it is paused but still has music in the playlist, Add the requested track to the queue.
                 if (player.Track != null && player.PlayerState is PlayerState.Playing || player.PlayerState is PlayerState.Paused)
