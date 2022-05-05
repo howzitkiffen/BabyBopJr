@@ -30,10 +30,10 @@ namespace BabyBopJr.Commands
         [Summary("Stops the queue/song")]
         public async Task Stop()
             => await Context.Channel.SendMessageAsync(await Managers.AudioManager.StopAsync(Context.Guild));
-        [Command("skip")]
-        [Summary("Skips to the next song in the queue")]
-        public async Task Skip()
-           => await Context.Channel.SendMessageAsync( await Managers.AudioManager.SkipTrackAsync(Context.Guild));
+        //[Command("skip")]
+        //[Summary("Skips to the next song in the queue")]
+        //public async Task Skip()
+        //   => await Context.Channel.SendMessageAsync( await Managers.AudioManager.SkipTrackAsync(Context.Guild));
 
     }
 }

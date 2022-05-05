@@ -156,52 +156,52 @@ namespace BabyBopJr.Managers
             }
         }
 
-        public static async Task<string> SkipTrackAsync(IGuild guild)
-        {
-            try
-            {
-                var player = _lavaNode.GetPlayer(guild);
-                /* Check if the player exists */
-                if (player == null)
-                    return $"Could not aquire player.\nAre you using the bot right now? check{ConfigManager.Config.Prefix}Help for info on how to use the bot.";
-                /* Check The queue, if it is less than one (meaning we only have the current song available to skip) it wont allow the user to skip.
-                     User is expected to use the Stop command if they're only wanting to skip the current song. */
-                if (player.Queue.Count < 1)
-                {
-                    return $"Unable To skip a track as there is only One or No songs currently playing." +
-                        $"\n\nDid you mean {ConfigManager.Config.Prefix}Stop?";
-                }
-                else
-                {
-                    try
-                    {
-                        /* Save the current song for use after we skip it. */
-                        var currentTrack = player.Track;
-                        /* Skip the current song. */
-                        //await player.SkipAsync();
-                        await player.PauseAsync();
-                        player.Queue.TryDequeue(out var queueable);
-                        LavaTrack track = queueable;
-                        await player.PlayAsync(track);
-                        skipped = true;
+        //public static async Task<string> SkipTrackAsync(IGuild guild)
+        //{
+        //    try
+        //    {
+        //        var player = _lavaNode.GetPlayer(guild);
+        //        /* Check if the player exists */
+        //        if (player == null)
+        //            return $"Could not aquire player.\nAre you using the bot right now? check{ConfigManager.Config.Prefix}Help for info on how to use the bot.";
+        //        /* Check The queue, if it is less than one (meaning we only have the current song available to skip) it wont allow the user to skip.
+        //             User is expected to use the Stop command if they're only wanting to skip the current song. */
+        //        if (player.Queue.Count < 1)
+        //        {
+        //            return $"Unable To skip a track as there is only One or No songs currently playing." +
+        //                $"\n\nDid you mean {ConfigManager.Config.Prefix}Stop?";
+        //        }
+        //        else
+        //        {
+        //            try
+        //            {
+        //                /* Save the current song for use after we skip it. */
+        //                var currentTrack = player.Track;
+        //                /* Skip the current song. */
+        //                //await player.SkipAsync();
+        //                await player.PauseAsync();
+        //                player.Queue.TryDequeue(out var queueable);
+        //                LavaTrack track = queueable;
+        //                await player.PlayAsync(track);
+        //                skipped = true;
 
-                        Console.WriteLine($"[{DateTime.Now}] Bot skipped: {currentTrack.Title}");
-                        await player.TextChannel.SendMessageAsync($"I have successfully skipped {currentTrack.Title}");
-                        return $"Now Playing {track.Title} By {track.Author}";
+        //                Console.WriteLine($"[{DateTime.Now}] Bot skipped: {currentTrack.Title}");
+        //                await player.TextChannel.SendMessageAsync($"I have successfully skipped {currentTrack.Title}");
+        //                return $"Now Playing {track.Title} By {track.Author}";
 
-                    }
-                    catch (Exception ex)
-                    {
-                        return ex.Message;
-                    }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                return ex.Message;
+        //            }
 
-                }
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-        }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return ex.Message;
+        //    }
+        //}
 
         public static async Task<string> StopAsync(IGuild guild)
         {
