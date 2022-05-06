@@ -8,6 +8,6 @@ namespace BabyBopJr.Enums
 {
     public static class URLEnums
     {
-      static IEnumerable<string> Prefixes = new List<string> { "www.", "http" };
+     public static IEnumerable<string> Prefixes = new List<string> { "www.", "http" };
     }
 }
