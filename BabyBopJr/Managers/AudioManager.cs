@@ -18,6 +18,7 @@ namespace BabyBopJr.Managers
     {
         private static readonly LavaNode _lavaNode = ServiceManager.Provider.GetRequiredService<LavaNode>();
         private static Boolean skipped = false;
+        
 
         public static async Task<string> JoinAsync(IGuild guild, IVoiceState voiceState, ITextChannel Channel)
         {
@@ -101,7 +102,7 @@ namespace BabyBopJr.Managers
             {
                 return "I'm not connected to a voice channel.";
             }
-
+            
             try
             {
                 //Get the player for that guild.
@@ -110,9 +111,10 @@ namespace BabyBopJr.Managers
                 //Find The Youtube Track the User requested.
                 LavaTrack track;
 
-                var search = Uri.IsWellFormedUriString(query, UriKind.Absolute) 
-                  ? await _lavaNode.SearchAsync(Victoria.Responses.Search.SearchType.YouTube, query)
+                var search = Uri.IsWellFormedUriString(query, UriKind.RelativeOrAbsolute) 
+                  ? await _lavaNode.SearchAsync(Victoria.Responses.Search.SearchType.Direct, query)
                   : await _lavaNode.SearchYouTubeAsync(query);
+
                 
                 //If we couldn't find anything, tell the user.
                 if (search.Status == Victoria.Responses.Search.SearchStatus.NoMatches)
