@@ -35,7 +35,7 @@ namespace BabyBopJr.Commands
         public async Task Skip()
            => await Context.Channel.SendMessageAsync(await Managers.AudioManager.SkipTrackAsync(Context.Guild));
         [Command("seek")]
-        [Summary("advances forward in the song by the number of specified seconds")]
+        [Summary("advanes forward in the song by the number of specified seconds")]
         public async Task Seek()
             => await Context.Channel.SendMessageAsync(await Managers.AudioManager.SeekTrackAsync(Context.Guild, Context.Message));
     }
