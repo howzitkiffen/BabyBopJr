@@ -111,7 +111,7 @@ namespace BabyBopJr.Managers
                 LavaTrack track;
 
                 var search = Uri.IsWellFormedUriString(query, UriKind.Absolute) 
-                  ? await _lavaNode.SearchAsync(Victoria.Responses.Search.SearchType.YouTube, query)
+                  ? await _lavaNode.SearchAsync(Victoria.Responses.Search.SearchType.Direct, query)
                   : await _lavaNode.SearchYouTubeAsync(query);
                 
                 //If we couldn't find anything, tell the user.
