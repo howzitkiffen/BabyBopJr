@@ -60,14 +60,21 @@ namespace DataConnector
                 creature.TamingSettings.FoodDrainMultiplier
             };
             string[] dinoData = await arkWikiConnector.GetTameWithWebScraper(inputData);
-            return FormatAsMessageResponse(dinoData);
+            return FormatAsMessageResponse(dinoData, creature);
         }
 
 
         //Creates a formatted message out of the gathered data
-        private static string FormatAsMessageResponse(string[] DinoInfo)
+        private static string FormatAsMessageResponse(string[] DinoInfo, Data.ArkData.Creature creature)
         {
-            throw new NotImplementedException();
+            string result = $"A {creature.CreatureName} at {creature.CreatureLevel}, would take the following: \r\n";
+            for(int i=0;i<DinoInfo.Length;i++)
+            {
+                DinoInfo[i].Replace("\r\n", " ");
+                DinoInfo[i] += "\r\n";
+                result += DinoInfo[i];
+            }
+            return result;
         }
 
         private static string FormatURL(Data.ArkData.Creature creature)

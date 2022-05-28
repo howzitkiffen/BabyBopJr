@@ -16,8 +16,8 @@ namespace WebScraper
         /// Creates an instance of a selenium Chrome driver
         /// </summary>
         /// <param name="url">Optional URL to navigate to on creation</param>
-        /// <param name="arguments">Optional Chrome arguments (i.e. --headless --disable-gpu)</param>
-        /// <param name="pageLoadStrategy">Default, Eager, Normal, None</param>
+        /// <param name="arguments">Optional Chrome arguments (i.e. --headless --disable-gpu)(For testing use "start-maximized")</param>
+        /// <param name="pageLoadStrategy">Default, Eager, Normal, None (For testing use "Eager"</param>
         public ChromeManager(string url="", string arguments = "--headless --disable-gpu", PageLoadStrategy pageLoadStrategy = PageLoadStrategy.Default)
         {
             //Set options for the driver with optional parameters

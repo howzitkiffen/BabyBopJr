@@ -14,9 +14,6 @@ namespace UnitTests
         [TestCase("basic kibble", ExpectedResult = "basic kibble")]
         [TestCase("mutton", ExpectedResult = "raw mutton")]
         [TestCase("mejo", ExpectedResult ="mejoberry")]
-        public string DataConnector_Data_ArkDataConnectorShould(string food)
-        {
-            return DataConnector.ArkDataConnector.MatchKibbleFromInput(food);
-        }
+        public string DataConnector_Data_ArkDataConnectorShould(string food) => DataConnector.ArkDataConnector.MatchKibbleFromInput(food);
     }
 }
