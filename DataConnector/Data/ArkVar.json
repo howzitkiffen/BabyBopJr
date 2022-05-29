@@ -1,0 +1,27 @@
+{
+  "kibble": [
+    "basic kibble",
+    "simple kibble",
+    "regular kibble",
+    "superior kibble",
+    "exceptional kibble",
+    "extraordinary kibble"
+  ],
+  "carnivorefood": [
+    "raw mutton",
+    "raw prime meat",
+    "cooked lamb chop",
+    "cooked prime meat",
+    "raw prime fish meat",
+    "raw meat",
+    "cooked prime fish meat",
+    "cooked meat",
+    "raw fish meat",
+    "cooked fish meat"
+  ],
+  "herbivorefood": [
+  "crops",
+  "mejoberry",
+  "berries"
+  ]
+}

@@ -7,6 +7,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Victoria;
+using System.Xml;
 
 namespace BabyBopJr
 {
@@ -66,7 +67,7 @@ namespace BabyBopJr
             await _client.LoginAsync(TokenType.Bot, Managers.ConfigManager.Config.Token);
             await _client.StartAsync();
 
-
+            await GetDinosOnStartUp();  //Fill enum with current list of creatures
             await Task.Delay(-1);
         }
 
@@ -107,6 +108,17 @@ namespace BabyBopJr
         private Task Log(LogMessage msg)
         {
             Console.WriteLine(msg.ToString());
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Get a list of creatures from the fan wiki and assign it to 
+        /// the dinoenum
+        /// </summary>
+        /// <returns></returns>
+        private Task GetDinosOnStartUp()
+        {
+            DataConnector.DinoEnum.GetListOfDinos();
             return Task.CompletedTask;
         }
     }
